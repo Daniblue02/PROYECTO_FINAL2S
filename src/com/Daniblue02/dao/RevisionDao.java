@@ -1,5 +1,7 @@
 package com.Daniblue02.dao;
 
+import com.Daniblue02.model.Cliente;
+import com.Daniblue02.model.Coche;
 import com.Daniblue02.model.Revision;
 import com.Daniblue02.util.ConectorBD;
 
@@ -23,7 +25,7 @@ public class RevisionDao {
             preparedStatement.setString(2, revision.getFiltro());
             preparedStatement.setString(3, revision.getAceite());
             preparedStatement.setString(4, revision.getFrenos());
-            preparedStatement.setString(5, revision.getPlaca());
+            preparedStatement.setString(5, revision.getCoche().getPlaca());
             preparedStatement.executeUpdate();
 
             System.out.println(revision + " fue registrada!");
@@ -40,7 +42,7 @@ public class RevisionDao {
             preparedStatement.setString(2, revision.getFiltro());
             preparedStatement.setString(3, revision.getAceite());
             preparedStatement.setString(4, revision.getFrenos());
-            preparedStatement.setString(5,revision.getPlaca());
+            preparedStatement.setString(5,revision.getCoche().getPlaca());
 
             preparedStatement.setString(6, revision.getCodigo());
             preparedStatement.executeUpdate();
@@ -77,8 +79,39 @@ public class RevisionDao {
                 revision.setFiltro(resultSet.getString("filtro"));
                 revision.setAceite(resultSet.getString("aceite"));
                 revision.setFrenos(resultSet.getString("frenos"));
-                revision.setPlaca(resultSet.getString("placa"));
 
+                String placa = resultSet.getString("placa");
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM coche WHERE placa = ?"
+                );
+
+                preparedStatement.setString(1,placa);
+                ResultSet resultSet1 = preparedStatement.executeQuery();
+                while (resultSet1.next()){
+                    Coche coche = new Coche();
+                    coche.setPlaca(resultSet1.getString("placa"));
+                    coche.setMarca(resultSet1.getString("marca"));
+                    coche.setModelo(resultSet1.getString("modelo"));
+                    coche.setColor(resultSet1.getString("color"));
+                    coche.setPrecio(resultSet1.getDouble("precio"));
+
+                    String nif = resultSet1.getString("nif");
+                    PreparedStatement preparedStatement1 = connection.prepareStatement(
+                            "SELECT * FROM cliente WHERE nif = ?"
+                    );
+                    preparedStatement1.setString(1,nif);
+                    ResultSet resultSet2 = preparedStatement1.executeQuery();
+                    while (resultSet2.next()){
+                        Cliente cliente = new Cliente();
+                        cliente.setNif(resultSet2.getString("nif"));
+                        cliente.setNombre(resultSet2.getString("nombre"));
+                        cliente.setCiudad(resultSet2.getString("ciudad"));
+                        cliente.setDireccion(resultSet2.getString("direccion"));
+                        cliente.setTelefono(resultSet2.getInt("telefono"));
+                        coche.setCliente(cliente);
+                    }
+                    revision.setCoche(coche);
+                }
                 revisiones.add(revision);
             }
         } catch (SQLException e) {
@@ -86,5 +119,7 @@ public class RevisionDao {
         }
 
         return revisiones;
+
+
     }
 }

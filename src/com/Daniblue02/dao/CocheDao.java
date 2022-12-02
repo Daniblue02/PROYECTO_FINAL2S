@@ -24,7 +24,7 @@ public class CocheDao {
             preparedStatement.setString(3, coche.getModelo());
             preparedStatement.setString(4, coche.getColor());
             preparedStatement.setDouble(5, coche.getPrecio());
-            preparedStatement.setString(6, coche.getNif());
+            preparedStatement.setString(6, coche.getCliente().getNif());
             preparedStatement.executeUpdate();
 
             System.out.println(coche + " fue creado!");
@@ -42,7 +42,7 @@ public class CocheDao {
             preparedStatement.setString(3, coche.getModelo());
             preparedStatement.setString(4, coche.getColor());
             preparedStatement.setDouble(5,coche.getPrecio());
-            preparedStatement.setString(6, coche.getNif());
+            preparedStatement.setString(6, coche.getCliente().getNif());
 
             preparedStatement.setString(7, coche.getPlaca());
             preparedStatement.executeUpdate();
@@ -73,21 +73,36 @@ public class CocheDao {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM coche");
-            while (resultSet.next()) {
+
+            while (resultSet.next()){
                 Coche coche = new Coche();
                 coche.setPlaca(resultSet.getString("placa"));
                 coche.setMarca(resultSet.getString("marca"));
                 coche.setModelo(resultSet.getString("modelo"));
                 coche.setColor(resultSet.getString("color"));
-                coche.setPrecio(resultSet.getInt("precio"));
-                coche.setNif(resultSet.getString("nif"));
+                coche.setPrecio(resultSet.getDouble("precio"));
 
+                String nif = resultSet.getString("nif");
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "Select * FROM cliente where nif = ?"
+                );
+                preparedStatement.setString(1,nif);
+                ResultSet resultSet1 = preparedStatement.executeQuery();
+                while (resultSet1.next()){
+                    Cliente cliente = new Cliente();
+                    cliente.setNif(resultSet1.getString("nif"));
+                    cliente.setNombre(resultSet1.getString("nombre"));
+                    cliente.setCiudad(resultSet1.getString("ciudad"));
+                    cliente.setDireccion(resultSet1.getString("direccion"));
+                    cliente.setTelefono(resultSet1.getInt("telefono"));
+
+                    coche.setCliente(cliente);
+                }
                 coches.add(coche);
             }
-        } catch (SQLException e) {
-            System.out.println("Error al Listar los coches: " + e.getMessage());
+        }catch (SQLException e){
+            System.out.println("Error al listar los coches: "+ e.getMessage());
         }
-
         return coches;
     }
 }

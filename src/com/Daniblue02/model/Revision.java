@@ -6,18 +6,18 @@ public class Revision {
     private String aceite;
     private String frenos;
 
-    private String placa;
+    private Coche coche;
 
     public Revision(){
 
     }
 
-    public Revision(String codigo, String filtro, String aceite, String frenos, String placa) {
+    public Revision(String codigo, String filtro, String aceite, String frenos, Coche coche) {
         this.codigo = codigo;
         this.filtro = filtro;
         this.aceite = aceite;
         this.frenos = frenos;
-        this.placa = placa;
+        this.coche = coche;
     }
 
     public String getCodigo() {
@@ -52,12 +52,12 @@ public class Revision {
         this.frenos = frenos;
     }
 
-    public String getPlaca() {
-        return placa;
+    public Coche getCoche() {
+        return coche;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setCoche(Coche coche) {
+        this.coche = coche;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Revision {
                 ", filtro='" + filtro + '\'' +
                 ", aceite='" + aceite + '\'' +
                 ", frenos='" + frenos + '\'' +
-                ", placa='" + placa + '\'' +
+                ", coche=" + coche +
                 '}';
     }
 }

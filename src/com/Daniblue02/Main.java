@@ -18,7 +18,9 @@ public class Main {
         //Cliente laura = new Cliente("1451", "Carlos Peréz", "Cochabamba", "Av. Ayacucho #2231", 74452229);
         //Coche ferrari2 = new Coche ("AH0122","Ferrari","TH800","rojo",200004,"1451");
         //Coche mercedes = new Coche ("AH0142","Ferrari","TH800","rojo",200004,"1451");
-        Revision tecnica1 = new Revision("29994","No sirve","Correcto","Cambiados","AH0142");
+        Cliente beto = new Cliente("1500", "Juan Peréz", "Santa Cruz", "Av.Quinta #2231", 4444512);
+        Coche mercedes = new Coche ("AH0142","Ferrari","TH800","rojo",200004,beto);
+        Revision tecnica1 = new Revision("29994","No sirve","Correcto","Cambiados",mercedes);
 
         ClienteDao clienteDao = new ClienteDao();
         CocheDao cocheDao = new CocheDao();
@@ -26,8 +28,7 @@ public class Main {
 
         //CREATE
         //clienteDao.addCliente(laura);
-        //clienteDao.addCliente(cliente);
-
+        //clienteDao.addCliente(beto);
         //cocheDao.addCoche(ferrari);
         //cocheDao.addCoche(mercedes);
 
@@ -67,15 +68,14 @@ public class Main {
         //Coche coche = new Coche ("AH0142" , "tOHSIBApowa" , "II9s11", "Negro", 12000,"1451");
         //cocheDao.updateCoche(coche);
 
-        //Revision revision = new Revision("29994", "Correctos", "Correcto", "Repuestos", "AH0142");
+        //Revision revision = new Revision("29994", "Correctos", "Correcto", "Repuestos", mercedes);
         //revisionDao.updateRevision(revision);
+
 
         //DELETE
         //clienteDao.deleteCliente("1456-1B");
         //clienteDao.deleteCliente("1450");
-
-        //cocheDao.deleteCoche("AH0122");
-
-        revisionDao.deleteRevision("29994");
+        //cocheDao.deleteCoche("AH0142");
+        //revisionDao.deleteRevision("29994");
     }
 }

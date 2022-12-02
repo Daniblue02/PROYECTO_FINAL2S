@@ -1,6 +1,6 @@
 package com.Daniblue02.model;
 
-public class Coche extends Cliente{
+public class Coche{
 
     //PK
     private String placa;
@@ -9,19 +9,27 @@ public class Coche extends Cliente{
     private String color;
     private double precio;
     //FK
-    private String nif;
+    private Cliente cliente;
 
     public Coche(){
 
     }
 
-    public Coche(String placa, String marca, String modelo, String color, double precio, String nif) {
+    public Coche(String placa, String marca, String modelo, String color, double precio, Cliente cliente) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
         this.precio = precio;
-        this.nif = nif;
+        this.cliente = cliente;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getPlaca() {
@@ -62,17 +70,8 @@ public class Coche extends Cliente{
 
     public void setPrecio(double precio) {
         this.precio = precio;
-    }
+    };
 
-    @Override
-    public String getNif() {
-        return nif;
-    }
-
-    @Override
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
 
     @Override
     public String toString() {
@@ -82,7 +81,7 @@ public class Coche extends Cliente{
                 ", modelo='" + modelo + '\'' +
                 ", color='" + color + '\'' +
                 ", precio=" + precio +
-                ", nif=" + nif +
+                ", cliente=" + cliente +
                 '}';
     }
 }
